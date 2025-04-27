@@ -8,11 +8,19 @@ endif
 include $(DEVKITARM)/ds_rules
 
 # If on a tagged commit, use just the tag
-ifneq ($(shell echo $(shell git tag -l --points-at HEAD) | head -c 1),)
-GIT_VER := $(shell git tag -l --points-at HEAD)
+GIT_TAG := $(shell git tag -l --points-at HEAD 2>/dev/null)
+ifneq ($(strip $(GIT_TAG)),)
+GIT_VER := $(GIT_TAG)
 else
-GIT_VER := $(shell git describe --abbrev=0 --tags)-$(shell git rev-parse --short=7 HEAD)
+GIT_DESCRIBE := $(shell git describe --abbrev=0 --tags 2>/dev/null)
+GIT_COMMIT := $(shell git rev-parse --short=7 HEAD 2>/dev/null)
+ifneq ($(strip $(GIT_DESCRIBE)),)
+GIT_VER := $(GIT_DESCRIBE)-$(GIT_COMMIT)
+else
+GIT_VER := v0.0.0-unknown
 endif
+endif
+
 
 # Ensure version.hpp exists
 ifeq (,$(wildcard include/utils/version.hpp))
