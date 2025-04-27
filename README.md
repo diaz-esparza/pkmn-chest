@@ -15,6 +15,8 @@
   </a>
 </p>
 
+# WARNING: Fork done for learning purposes, not intended to be stable software as of now. Might do a pull request if this goes successfully.
+
 A Pokémon Bank for the 3<sup>rd</sup> through 5<sup>th</sup> generation Pokémon games for the Nintendo DS(i).
 
 <p align="center">
