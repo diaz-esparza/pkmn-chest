@@ -228,7 +228,7 @@ int aMenu(int pkmX, int pkmY, std::vector<Label> &buttons, int buttonMode) {
 
 				FILE *out = fopen(getPkxOutputPath(*currentPokemon(pkmX, pkmY)).c_str(), "wb");
 				if(out) {
-					fwrite(currentPokemon(pkmX, pkmY)->rawData(), 1, 136, out);
+					fwrite(currentPokemon(pkmX, pkmY)->rawData().data(), 1, 136, out);
 					fclose(out);
 				}
 
@@ -373,7 +373,7 @@ int aMenu(int pkmX, int pkmY, std::vector<Label> &buttons, int buttonMode) {
 												  .c_str(),
 											  "wb");
 							if(out) {
-								fwrite(currentPokemon(x, y)->rawData(), 1, 136, out);
+								fwrite(currentPokemon(x, y)->rawData().data(), 1, 136, out);
 								fclose(out);
 							}
 						}
@@ -474,11 +474,11 @@ int aMenu(int pkmX, int pkmY, std::vector<Label> &buttons, int buttonMode) {
 							u8 buffer[size];
 							fread(buffer, 1, sizeof(buffer), in);
 							if(topScreen)
-								Banks::bank->pkm(*pksm::PKX::getPKM(gen, buffer), currentBankBox, pkmPos(pkmX, pkmY));
+								Banks::bank->pkm(*pksm::PKX::getPKM(gen, buffer, size), currentBankBox, pkmPos(pkmX, pkmY));
 							else if(inParty)
-								save->pkm(*save->transfer(*pksm::PKX::getPKM(gen, buffer)), pkmPos(pkmX, pkmY));
+								save->pkm(*save->transfer(*pksm::PKX::getPKM(gen, buffer, size)), pkmPos(pkmX, pkmY));
 							else
-								save->pkm(*save->transfer(*pksm::PKX::getPKM(gen, buffer)),
+								save->pkm(*save->transfer(*pksm::PKX::getPKM(gen, buffer, size)),
 										  currentSaveBox,
 										  pkmPos(pkmX, pkmY),
 										  false);
@@ -579,6 +579,8 @@ int aMenu(int pkmX, int pkmY, std::vector<Label> &buttons, int buttonMode) {
 												 pkm->nature(),
 												 pkm->alternativeForm(),
 												 pkm->abilityNumber(),
+												 pkm->shiny(),
+												 pkm->TSV(),
 												 pkm->PID(),
 												 pkm->generation()));
 				pkm->metDate(Date::today());

@@ -217,10 +217,10 @@ void editBag(void) {
 				int currentItem = 0;
 				std::vector<std::string> validItems;
 				validItems.push_back(i18n::item(Config::getLang("lang"), 0));
-				for(unsigned i = 0; i < save->validItems()[save->pouches()[selectedPouch].first].size(); i++) {
+				for(unsigned i = 0; i < save->validItems()[selectedPouch].second.size(); i++) {
 					validItems.push_back(i18n::item(Config::getLang("lang"),
-													save->validItems()[save->pouches()[selectedPouch].first][i]));
-					if(save->validItems()[save->pouches()[selectedPouch].first][i] == item->id()) {
+													save->validItems()[selectedPouch].second[i]));
+					if(save->validItems()[selectedPouch].second[i] == item->id()) {
 						currentItem = i + 1;
 					}
 				}
