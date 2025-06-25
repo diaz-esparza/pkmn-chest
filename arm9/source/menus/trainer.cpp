@@ -126,7 +126,9 @@ void showTrainerCard(void) {
 			if(selection > 0)
 				selection--;
 		} else if(held & KEY_DOWN) {
-			if(selection < (int)(sizeof(textTP1) / sizeof(textTP1[0]) - 1))
+      // There are two extra fields exclusive to Gen III:
+      // "RTC initial time" and "RTC elapsed time" 
+			if(selection < (int)(sizeof(textTP1) / sizeof(textTP1[0]) - (save->generation() == pksm::Generation::THREE ? 1 : 3)))
 				selection++;
 		} else if(pressed & KEY_LEFT) {
 			if(column > 0)
